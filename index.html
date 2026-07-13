@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>All-in-One Trading Toolkit</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables - Premium Dark Theme */
+        :root {
+            --bg-base: #0f172a;        /* Deep Gray */
+            --bg-card: #1e293b;        /* Card Background */
+            --bg-input: #0f172a;       /* Input Background */
+            --accent: #10b981;         /* Neon Green */
+            --accent-glow: rgba(16, 185, 129, 0.2);
+            --text-main: #f8fafc;      /* Crisp White */
+            --text-muted: #94a3b8;     /* Muted Gray */
+            --border: #334155;         /* Borders */
+            --danger: #ef4444;         /* Danger Red */
+            --danger-glow: rgba(239, 68, 68, 0.15);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+        }
+
+        /* Header & Scrollable Tabs */
+        header {
+            padding: 1.5rem 1rem 1rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .tabs-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 0.25rem;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem 0.5rem;
+        }
+        
+        .tabs-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs {
+            display: inline-flex;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.65rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: var(--bg-base);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        /* Main Content */
+        main {
+            padding: 1.5rem 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card and Form Design */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 480px) {
+            .form-grid.two-cols {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        input[type="number"], 
+        select {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+            font-family: inherit;
+        }
+
+        input[type="number"]:focus, 
+        select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        /* Slider */
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slider-value {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: var(--accent-glow);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            margin: 0.5rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 4px solid var(--bg-card);
+            box-shadow: 0 0 12px var(--accent-glow);
+            transition: transform 0.15s;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:active {
+            transform: scale(1.15);
+        }
+
+        /* Result Box */
+        .result-box {
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .result-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .result-value.highlight { color: var(--accent); }
+        .result-value.danger { color: var(--danger); }
+
+        /* Preview List & Tables */
+        .preview-list {
+            list-style: none;
+            margin-top: 1.5rem;
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .preview-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .preview-list li span:last-child {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .preview-list-title {
+            padding: 0.75rem 1.25rem;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>All-in-One Trading Toolkit</h1>
+        <div class="tabs-wrapper">
+            <div class="tabs">
+                <button class="tab-btn active" data-target="tab1">Capital Risk (1)</button>
+                <button class="tab-btn" data-target="tab2">Fixed Risk (2)</button>
+                <button class="tab-btn" data-target="tab3">R:R Planner (3)</button>
+                <button class="tab-btn" data-target="tab4">Liq Sim (4)</button>
+                <button class="tab-btn" data-target="tab5">Compounding (5)</button>
+                <button class="tab-btn" data-target="tab6">Calendar (6)</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- TAB 1: Position Size & Risk Calculator (Capital-Based) -->
+        <section id="tab1" class="tab-content active">
+            <div class="card">
+                <div class="card-title">Position Size & Risk Calculator (Capital-Based)</div>
+                
+                <div class="form-grid">
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Account Balance ($)</label>
+                            <input type="number" id="t1-balance" placeholder="10000" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Risk Percentage (%)</label>
+                            <input type="number" id="t1-risk" placeholder="1" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Entry Price</label>
+                            <input type="number" id="t1-entry" placeholder="50000" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Stop-Loss Price</label>
+                            <input type="number" id="t1-stop" placeholder="48000" step="any">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Asset Type</label>
+                        <select id="t1-type">
+                            <option value="crypto">Crypto (Units)</option>
+                            <option value="forex">Forex (1 Lot = 100k)</option>
+                            <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Amount at Risk</span>
+                        <span class="result-value danger" id="r1-amount-risk">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Distance to Stop</span>
+                        <span class="result-value" id="r1-distance">0.00%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Position Size (Notional)</span>
+                        <span class="result-value" id="r1-pos-size">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Final Size</span>
+                        <span class="result-value highlight" id="r1-final-size">0.0000 Units</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Fixed Risk Position Sizer (Amount-Based) -->
+        <section id="tab2" class="tab-content">
+            <div class="card">
+                <div class="card-title">Fixed Risk Position Sizer (Amount-Based)</div>
+                
+                <div class="form-grid">
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Desired Risk Amount ($)</label>
+                            <input type="number" id="t2-risk-amount" placeholder="200" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Asset Type</label>
+                            <select id="t2-type">
+                                <option value="crypto">Crypto (Units)</option>
+                                <option value="forex">Forex (1 Lot = 100k)</option>
+                                <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Entry Price</label>
+                            <input type="number" id="t2-entry" placeholder="50000" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Stop-Loss Price</label>
+                            <input type="number" id="t2-stop" placeholder="48000" step="any">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Distance to Stop</span>
+                        <span class="result-value" id="r2-distance">0.00%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Required Position Size (Notional)</span>
+                        <span class="result-value" id="r2-pos-size">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Final Size</span>
+                        <span class="result-value highlight" id="r2-final-size">0.0000 Units</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Risk-First R:R Planner -->
+        <section id="tab3" class="tab-content">
+            <div class="card">
+                <div class="card-title">Risk-First R:R Planner</div>
+                
+                <div class="form-grid">
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Position Type</label>
+                            <select id="t3-type">
+                                <option value="long">Long</option>
+                                <option value="short">Short</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Position Size ($)</label>
+                            <input type="number" id="t3-size" placeholder="1000" step="any">
+                        </div>
+                    </div>
+
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Entry Price</label>
+                            <input type="number" id="t3-entry" placeholder="100" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Asset Type</label>
+                            <select id="t3-asset-type">
+                                <option value="crypto">Crypto (Units)</option>
+                                <option value="forex">Forex (1 Lot = 100k)</option>
+                                <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Stop-Loss Price</label>
+                            <input type="number" id="t3-stop" placeholder="95" step="any">
+                        </div>
+                        <div class="form-group">
+                            <label>Stop-Loss Percentage (%)</label>
+                            <input type="number" id="t3-stop-pct" placeholder="5" step="any">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Total Capital at Risk</span>
+                        <span class="result-value danger" id="r3-capital-risk">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Final Position Size</span>
+                        <span class="result-value highlight" id="r3-final-size">0.0000 Units</span>
+                    </div>
+                </div>
+
+                <ul class="preview-list">
+                    <div class="preview-list-title">Target Planner (TP)</div>
+                    <li>
+                        <span>TP1 (1:1 R:R) Price</span>
+                        <span id="r3-tp1-price">-</span>
+                    </li>
+                    <li>
+                        <span>TP1 Profit ($)</span>
+                        <span id="r3-tp1-profit">-</span>
+                    </li>
+                    <li>
+                        <span>TP2 (1:2 R:R) Price</span>
+                        <span id="r3-tp2-price">-</span>
+                    </li>
+                    <li>
+                        <span>TP2 Profit ($)</span>
+                        <span id="r3-tp2-profit">-</span>
+                    </li>
+                    <li>
+                        <span>TP3 (1:3 R:R) Price</span>
+                        <span id="r3-tp3-price">-</span>
+                    </li>
+                    <li>
+                        <span>TP3 Profit ($)</span>
+                        <span id="r3-tp3-profit">-</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TAB 4: Liquidation & Margin Simulator -->
+        <section id="tab4" class="tab-content">
+            <div class="card">
+                <div class="card-title">Liquidation & Margin Simulator</div>
+                
+                <div class="form-grid">
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Position Type</label>
+                            <select id="t4-type">
+                                <option value="long">Long</option>
+                                <option value="short">Short</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Margin Amount ($)</label>
+                            <input type="number" id="t4-margin" placeholder="1000" step="any">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Entry Price</label>
+                        <input type="number" id="t4-entry" placeholder="60000" step="any">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label>Leverage</label>
+                            <span class="slider-value" id="t4-lev-val">10x</span>
+                        </div>
+                        <input type="range" id="t4-leverage" min="1" max="125" value="10">
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Notional Position Value</span>
+                        <span class="result-value" id="r4-notional">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Liquidation Price</span>
+                        <span class="result-value danger" id="r4-liq">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: Compounding Interest Growth Calculator -->
+        <section id="tab5" class="tab-content">
+            <div class="card">
+                <div class="card-title">Compounding Interest Growth Calculator</div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Starting Capital ($)</label>
+                        <input type="number" id="t5-cap" placeholder="500" step="any">
+                    </div>
+                    
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Return per Period (%)</label>
+                            <input type="number" id="t5-return" placeholder="1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Periods</label>
+                            <input type="number" id="t5-periods" placeholder="30" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">Net Profit</span>
+                        <span class="result-value highlight" id="r5-profit">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Final Amount</span>
+                        <span class="result-value highlight" id="r5-final">$0.00</span>
+                    </div>
+                </div>
+
+                <ul class="preview-list">
+                    <div class="preview-list-title">First 5 Periods Preview</div>
+                    <div id="r5-list-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TAB 6: Economic Calendar -->
+        <section id="tab6" class="tab-content">
+            <div class="card" style="min-height: 650px; height: 80vh; overflow: visible; display: flex; flex-direction: column; padding: 1.25rem;">
+                <div class="card-title" style="margin-bottom: 0.75rem;">Economic Calendar</div>
+                <div style="flex: 1; height: 100%; width: 100%; overflow: hidden; border-radius: 8px;">
+                    <div class="tradingview-widget-container" style="width: 100%; height: 100%;">
+                        <div class="tradingview-widget-container__widget" style="width: 100%; height: 100%;"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                        {
+                          "colorTheme": "dark",
+                          "isWidescreen": true,
+                          "width": "100%",
+                          "height": "100%",
+                          "locale": "en",
+                          "importanceFilter": "-1,0,1"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Vanilla JS Logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // Tab Switching Logic
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    btn.classList.add('active');
+                    const target = btn.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+
+            // Listen to all inputs to trigger live calculation
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', (e) => {
+                    // Custom bidirectional binding logic for Tab 3
+                    if (e.target.id === 't3-stop') {
+                        lastEditedStop = 'price';
+                        syncTab3Values();
+                    } else if (e.target.id === 't3-stop-pct') {
+                        lastEditedStop = 'pct';
+                        syncTab3Values();
+                    } else if (e.target.id === 't3-entry' || e.target.id === 't3-type') {
+                        syncTab3Values();
+                    }
+                    calculateAll();
+                });
+            });
+
+            // Keeps track of which Tab 3 Stop-loss field was last updated by the user: 'price' or 'pct'
+            let lastEditedStop = 'price';
+
+            function syncTab3Values() {
+                const entry = parseFloat(document.getElementById('t3-entry').value) || 0;
+                const type = document.getElementById('t3-type').value;
+                const stopPriceInput = document.getElementById('t3-stop');
+                const stopPctInput = document.getElementById('t3-stop-pct');
+
+                if (entry <= 0) return;
+
+                if (lastEditedStop === 'price') {
+                    // Stop price entered, calculate stop percentage
+                    const stopPrice = parseFloat(stopPriceInput.value) || 0;
+                    if (stopPrice > 0) {
+                        const pct = (Math.abs(entry - stopPrice) / entry) * 100;
+                        stopPctInput.value = pct.toFixed(2);
+                    } else {
+                        stopPctInput.value = '';
+                    }
+                } else if (lastEditedStop === 'pct') {
+                    // Stop percentage entered, calculate stop price
+                    const pct = parseFloat(stopPctInput.value) || 0;
+                    let stopPrice = 0;
+                    if (type === 'long') {
+                        stopPrice = entry * (1 - pct / 100);
+                    } else {
+                        stopPrice = entry * (1 + pct / 100);
+                    }
+                    stopPriceInput.value = stopPrice > 0 ? stopPrice.toFixed(4) : '';
+                }
+            }
+
+            // Initial Calculations
+            calculateAll();
+
+            function calculateAll() {
+                calcTab1();
+                calcTab2();
+                calcTab3();
+                calcTab4();
+                calcTab5();
+            }
+
+            // Tab 1: Position Size & Risk Calculator (Capital-Based)
+            function calcTab1() {
+                const balance = parseFloat(document.getElementById('t1-balance').value) || 0;
+                const risk = parseFloat(document.getElementById('t1-risk').value) || 0;
+                const entry = parseFloat(document.getElementById('t1-entry').value) || 0;
+                const stop = parseFloat(document.getElementById('t1-stop').value) || 0;
+                const type = document.getElementById('t1-type').value;
+
+                const amountRisk = balance * (risk / 100);
+                let distance = 0;
+                let posSize = 0;
+                let finalSize = 0;
+
+                if (entry > 0 && stop > 0 && entry !== stop) {
+                    distance = (Math.abs(entry - stop) / entry) * 100;
+                    if (distance > 0) {
+                        posSize = amountRisk / (distance / 100);
+                        if (type === 'crypto') {
+                            finalSize = posSize / entry;
+                        } else if (type === 'forex') {
+                            finalSize = (posSize / entry) / 100000;
+                        } else if (type === 'metals') {
+                            finalSize = (posSize / entry) / 100;
+                        }
+                    }
+                }
+
+                document.getElementById('r1-amount-risk').textContent = '$' + amountRisk.toFixed(2);
+                document.getElementById('r1-distance').textContent = distance.toFixed(2) + '%';
+                document.getElementById('r1-pos-size').textContent = '$' + posSize.toFixed(2);
+                
+                let finalStr = '';
+                if (type === 'crypto') {
+                    finalStr = finalSize.toFixed(4) + ' Units';
+                } else {
+                    finalStr = finalSize.toFixed(2) + ' Lots';
+                }
+                document.getElementById('r1-final-size').textContent = finalStr;
+            }
+
+            // Tab 2: Fixed Risk Position Sizer (Amount-Based)
+            function calcTab2() {
+                const riskAmount = parseFloat(document.getElementById('t2-risk-amount').value) || 0;
+                const entry = parseFloat(document.getElementById('t2-entry').value) || 0;
+                const stop = parseFloat(document.getElementById('t2-stop').value) || 0;
+                const type = document.getElementById('t2-type').value;
+
+                let distance = 0;
+                let posSize = 0;
+                let finalSize = 0;
+
+                if (entry > 0 && stop > 0 && entry !== stop) {
+                    distance = (Math.abs(entry - stop) / entry) * 100;
+                    if (distance > 0) {
+                        posSize = riskAmount / (distance / 100);
+                        if (type === 'crypto') {
+                            finalSize = posSize / entry;
+                        } else if (type === 'forex') {
+                            finalSize = (posSize / entry) / 100000;
+                        } else if (type === 'metals') {
+                            finalSize = (posSize / entry) / 100;
+                        }
+                    }
+                }
+
+                document.getElementById('r2-distance').textContent = distance.toFixed(2) + '%';
+                document.getElementById('r2-pos-size').textContent = '$' + posSize.toFixed(2);
+                
+                let finalStr = '';
+                if (type === 'crypto') {
+                    finalStr = finalSize.toFixed(4) + ' Units';
+                } else {
+                    finalStr = finalSize.toFixed(2) + ' Lots';
+                }
+                document.getElementById('r2-final-size').textContent = finalStr;
+            }
+
+            // Tab 3: Risk-First R:R Planner
+            function calcTab3() {
+                const type = document.getElementById('t3-type').value;
+                const size = parseFloat(document.getElementById('t3-size').value) || 0;
+                const entry = parseFloat(document.getElementById('t3-entry').value) || 0;
+                const stopPct = parseFloat(document.getElementById('t3-stop-pct').value) || 0;
+                const assetType = document.getElementById('t3-asset-type').value;
+
+                const capRisk = size * (stopPct / 100);
+                document.getElementById('r3-capital-risk').textContent = '$' + capRisk.toFixed(2);
+
+                const stopPrice = parseFloat(document.getElementById('t3-stop').value) || 0;
+                const riskDist = Math.abs(entry - stopPrice);
+
+                let tp1Price = 0, tp2Price = 0, tp3Price = 0;
+
+                if (entry > 0 && stopPrice > 0 && riskDist > 0) {
+                    if (type === 'long') {
+                        tp1Price = entry + riskDist;
+                        tp2Price = entry + (riskDist * 2);
+                        tp3Price = entry + (riskDist * 3);
+                    } else {
+                        tp1Price = Math.max(0, entry - riskDist);
+                        tp2Price = Math.max(0, entry - (riskDist * 2));
+                        tp3Price = Math.max(0, entry - (riskDist * 3));
+                    }
+                }
+
+                const tp1Profit = capRisk * 1;
+                const tp2Profit = capRisk * 2;
+                const tp3Profit = capRisk * 3;
+
+                document.getElementById('r3-tp1-price').textContent = tp1Price > 0 ? '$' + tp1Price.toFixed(2) : '-';
+                document.getElementById('r3-tp1-profit').textContent = tp1Price > 0 ? '+$' + tp1Profit.toFixed(2) : '-';
+
+                document.getElementById('r3-tp2-price').textContent = tp2Price > 0 ? '$' + tp2Price.toFixed(2) : '-';
+                document.getElementById('r3-tp2-profit').textContent = tp2Price > 0 ? '+$' + tp2Profit.toFixed(2) : '-';
+
+                document.getElementById('r3-tp3-price').textContent = tp3Price > 0 ? '$' + tp3Price.toFixed(2) : '-';
+                document.getElementById('r3-tp3-profit').textContent = tp3Price > 0 ? '+$' + tp3Profit.toFixed(2) : '-';
+
+                // Calculate final position size for Tab 3
+                let finalSize = 0;
+                if (entry > 0 && size > 0) {
+                    if (assetType === 'crypto') {
+                        finalSize = size / entry;
+                    } else if (assetType === 'forex') {
+                        finalSize = (size / entry) / 100000;
+                    } else if (assetType === 'metals') {
+                        finalSize = (size / entry) / 100;
+                    }
+                }
+
+                let finalStr = '';
+                if (assetType === 'crypto') {
+                    finalStr = finalSize.toFixed(4) + ' Units';
+                } else {
+                    finalStr = finalSize.toFixed(2) + ' Lots';
+                }
+                document.getElementById('r3-final-size').textContent = finalStr;
+            }
+
+            // Tab 4: Liquidation & Margin Simulator
+            function calcTab4() {
+                const type = document.getElementById('t4-type').value;
+                const entry = parseFloat(document.getElementById('t4-entry').value) || 0;
+                const leverage = parseFloat(document.getElementById('t4-leverage').value) || 1;
+                const margin = parseFloat(document.getElementById('t4-margin').value) || 0;
+
+                document.getElementById('t4-lev-val').textContent = leverage + 'x';
+
+                let liq = 0;
+                if (entry > 0) {
+                    if (type === 'long') {
+                        liq = entry * (1 - (1 / leverage));
+                    } else {
+                        liq = entry * (1 + (1 / leverage));
+                    }
+                }
+
+                const notional = margin * leverage;
+
+                document.getElementById('r4-notional').textContent = '$' + notional.toFixed(2);
+                document.getElementById('r4-liq').textContent = liq > 0 ? '$' + liq.toFixed(2) : '$0.00';
+            }
+
+            // Tab 5: Compounding Interest Growth Calculator
+            function calcTab5() {
+                const cap = parseFloat(document.getElementById('t5-cap').value) || 0;
+                const ret = parseFloat(document.getElementById('t5-return').value) || 0;
+                const periods = parseInt(document.getElementById('t5-periods').value) || 0;
+
+                let final = 0;
+                let profit = 0;
+
+                if (cap > 0) {
+                    final = cap * Math.pow((1 + ret/100), periods);
+                    profit = final - cap;
+                }
+
+                document.getElementById('r5-final').textContent = '$' + final.toFixed(2);
+                document.getElementById('r5-profit').textContent = '$' + profit.toFixed(2);
+
+                const listContainer = document.getElementById('r5-list-container');
+                listContainer.innerHTML = '';
+                
+                if (cap > 0 && periods > 0) {
+                    let limit = Math.min(periods, 5);
+                    for (let i = 1; i <= limit; i++) {
+                        let val = cap * Math.pow((1 + ret/100), i);
+                        const li = document.createElement('li');
+                        li.innerHTML = `<span>Period ${i}</span> <span>$${val.toFixed(2)}</span>`;
+                        listContainer.appendChild(li);
+                    }
+                } else {
+                    listContainer.innerHTML = '<li><span>Waiting for input...</span> <span>-</span></li>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
