@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Lot Size Math: Standard, Mini, Micro & Nano Lots | FXLotSize</title>
+    <meta name="description" content="Complete mathematical guide to Forex lot sizes. Learn contract specifications, pip value calculations, and cross-currency conversions.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 2rem 1rem 4rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-size: 2.1rem;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        .meta { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        h2 { font-size: 1.4rem; color: var(--text-main); margin: 2rem 0 1rem; }
+        h3 { font-size: 1.15rem; color: var(--accent); margin: 1.5rem 0 0.75rem; }
+        p { color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.98rem; }
+        ul, ol { color: var(--text-muted); margin-left: 1.5rem; margin-bottom: 1.25rem; font-size: 0.98rem; }
+        li { margin-bottom: 0.5rem; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--text-main);
+        }
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/guides.html" class="back-link">&larr; Back to Guides Hub</a>
+        
+        <article>
+            <h1>Understanding Lot Size Math: Standard, Mini, Micro, and Nano Lots</h1>
+            <div class="meta">Published by FXLotSize Team &bull; 8 Min Read &bull; Category: Contract Math</div>
+
+            <p>In foreign exchange trading, currency transactions do not occur in standardized single-dollar quantities. Because exchange rates fluctuate in tiny increments called <strong>pips</strong> (Percentage in Point), trading standardized blocks of currency—known as <strong>lots</strong>—is necessary to generate meaningful financial returns.</p>
+
+            <p>For beginner and intermediate traders, comprehending contract sizes and calculating exact pip values across different currency pairs is the cornerstone of quantitative risk control. In this guide, we break down the mathematical mechanics behind Forex lot sizes.</p>
+
+            <h2>1. What is a Forex Lot? Standardized Contract Tiers</h2>
+            <p>A "lot" represents the standardized unit quantity of the base currency (the first currency listed in a currency pair, such as EUR in EUR/USD) being bought or sold. Brokers offer four primary lot tiers to accommodate account capitalizations ranging from $50 micro accounts to multi-million dollar institutional funds.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lot Type</th>
+                        <th>Volume Volume</th>
+                        <th>Currency Units</th>
+                        <th>Approx. Pip Value (USD Pairs)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Standard Lot</strong></td>
+                        <td>1.00 Lot</td>
+                        <td>100,000 Units</td>
+                        <td>$10.00 / pip</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mini Lot</strong></td>
+                        <td>0.10 Lot</td>
+                        <td>10,000 Units</td>
+                        <td>$1.00 / pip</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Micro Lot</strong></td>
+                        <td>0.01 Lot</td>
+                        <td>1,000 Units</td>
+                        <td>$0.10 / pip</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nano Lot</strong></td>
+                        <td>0.001 Lot</td>
+                        <td>100 Units</td>
+                        <td>$0.01 / pip</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>2. The Mathematics of Pip Value Calculation</h2>
+            <p>A pip represents a change of 0.0001 in price for most standard currency pairs (or 0.01 for Japanese Yen pairs). The monetary value of a pip varies depending on the account denomination currency and quote currency.</p>
+
+            <h3>A. Direct Quote Pairs (Quote Currency is USD)</h3>
+            <p>For currency pairs where USD is the quote currency (e.g., EUR/USD, GBP/USD, AUD/USD), pip values remain fixed regardless of price movements:</p>
+            <p style="text-align: center; font-weight: 600; color: var(--text-main);">Pip Value = (0.0001 &times; 100,000 units) = $10.00 per Standard Lot</p>
+            <p>This fixed relation makes calculating risk straightforward: a 30-pip stop loss on 0.50 lots of EUR/USD equals exactly: 30 pips &times; ($10 &times; 0.50) = $150 risk.</p>
+
+            <h3>B. Indirect Quote Pairs (Base Currency is USD)</h3>
+            <p>For pairs where USD is the base currency (e.g., USD/CAD, USD/CHF, USD/JPY), the pip value fluctuates dynamically with the current exchange rate:</p>
+            <p style="text-align: center; font-weight: 600; color: var(--text-main);">Pip Value (in USD) = (0.0001 &times; Lot Units) / Exchange Rate</p>
+
+            <p><strong>Example (USD/CAD at 1.3500):</strong><br>
+            Pip Value = (0.0001 &times; 100,000) / 1.3500 = $7.40 USD per Standard Lot.</p>
+
+            <h3>C. Cross Currency Pairs (Non-USD Pairs)</h3>
+            <p>For cross pairs such as EUR/GBP or EUR/JPY, pip values must be converted back to your account currency using the current spot rate of the quote currency against USD.</p>
+
+            <h2>3. Why Dynamic Lot Sizing is Essential</h2>
+            <p>Because pip values differ across instruments (for instance, 1 pip on USD/CAD is worth $7.40 while 1 pip on EUR/USD is worth $10.00), utilizing static lot sizes across different pairs introduces massive risk variances. Entering 1.00 lot on EUR/USD exposes you to 35% higher cash volatility than 1.00 lot on USD/CAD over the exact same pip distance.</p>
+
+            <p>Automating your trade pre-checks with the <a href="/" style="color: var(--accent);">FXLotSize Calculation Suite</a> normalizes these cross-currency variables automatically, guaranteeing that your actual cash exposure matches your risk budget down to the exact penny.</p>
+        </article>
+
+        <footer>
+            &copy; 2026 FXLotSize. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
