@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FXLotSize Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Login Screen Overlay */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-base);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        /* Navbar & App Container */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .main-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+        }
+
+        .panel-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 { font-size: 1.3rem; margin-bottom: 1.25rem; color: var(--text-main); }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500; }
+        input, select, textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); }
+
+        .btn {
+            background: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background: var(--danger); color: #fff; }
+
+        /* Notification Alert */
+        .toast {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            background: var(--accent);
+            color: #0f172a;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 10000;
+        }
+
+        /* Message Table */
+        .msg-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .msg-table th, .msg-table td {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .msg-table th { background: var(--bg-input); color: var(--text-main); }
+        .msg-table td { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <!-- Login Screen Overlay -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <h1 style="text-align: center; color: var(--accent); margin-bottom: 1.5rem; font-size: 1.6rem;">Admin Login</h1>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Password (Default: admin123)</label>
+                    <input type="password" id="admin-pass" required placeholder="Enter password...">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Login to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Top Navbar -->
+    <header>
+        <div class="brand">FXLotSize Admin Panel</div>
+        <button onclick="handleLogout()" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Logout</button>
+    </header>
+
+    <!-- Main Admin Container -->
+    <div class="main-container">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('ads')">📢 Ad Management</button>
+            <button class="tab-btn" onclick="switchTab('messages')">📬 Contact Messages</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- TAB 1: Ad Management -->
+        <div id="tab-ads" class="panel-card">
+            <h2>Sidebar Banner Ad Management (300x600)</h2>
+            <form onsubmit="saveAdConfig(event)">
+                <div class="form-group">
+                    <label>Ad Type</label>
+                    <select id="ad-type" onchange="toggleAdInputs()">
+                        <option value="code">Google AdSense / HTML Script Code</option>
+                        <option value="custom">Custom Banner Image & Target Link</option>
+                    </select>
+                </div>
+
+                <div id="ad-code-group" class="form-group">
+                    <label>AdSense Script / HTML Embed Code</label>
+                    <textarea id="ad-script" rows="6" placeholder="<script async src='https://pagead2.googlesyndication.com/...'></script>"></textarea>
+                </div>
+
+                <div id="ad-custom-group" style="display: none;">
+                    <div class="form-group">
+                        <label>Banner Image URL (300x600)</label>
+                        <input type="text" id="ad-img-url" placeholder="https://example.com/banner.png">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Destination Link</label>
+                        <input type="text" id="ad-target-link" placeholder="https://example.com/ref-link">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Save & Update Ad</button>
+            </form>
+        </div>
+
+        <!-- TAB 2: Contact Messages -->
+        <div id="tab-messages" class="panel-card" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Received Contact Form Messages</h2>
+                <button onclick="clearMessages()" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Clear All</button>
+            </div>
+            
+            <div id="messages-container">
+                <p style="color: var(--text-muted); margin-top: 1rem;">No contact messages received yet.</p>
+            </div>
+        </div>
+
+        <!-- TAB 3: Settings -->
+        <div id="tab-settings" class="panel-card" style="display: none;">
+            <h2>Admin Password Settings</h2>
+            <form onsubmit="changePassword(event)">
+                <div class="form-group">
+                    <label>New Admin Password</label>
+                    <input type="password" id="new-pass" required placeholder="Enter new password...">
+                </div>
+                <button type="submit" class="btn">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">Changes saved successfully!</div>
+
+    <script>
+        // Default Local Storage Auth & Settings
+        const DEFAULT_PASS = 'admin123';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (sessionStorage.getItem('adminAuth') === 'true') {
+                document.getElementById('login-overlay').style.display = 'none';
+            }
+            loadAdConfig();
+            loadMessages();
+        });
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('admin-pass').value;
+            const savedPass = localStorage.getItem('adminPassword') || DEFAULT_PASS;
+
+            if (inputPass === savedPass) {
+                sessionStorage.setItem('adminAuth', 'true');
+                document.getElementById('login-overlay').style.display = 'none';
+                showToast("Welcome to Admin Dashboard!");
+            } else {
+                alert("Incorrect Password!");
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('adminAuth');
+            location.reload();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-ads').style.display = 'none';
+            document.getElementById('tab-messages').style.display = 'none';
+            document.getElementById('tab-settings').style.display = 'none';
+
+            if (tab === 'ads') {
+                document.getElementById('tab-ads').style.display = 'block';
+                event.target.classList.add('active');
+            } else if (tab === 'messages') {
+                document.getElementById('tab-messages').style.display = 'block';
+                event.target.classList.add('active');
+                loadMessages();
+            } else if (tab === 'settings') {
+                document.getElementById('tab-settings').style.display = 'block';
+                event.target.classList.add('active');
+            }
+        }
+
+        function toggleAdInputs() {
+            const type = document.getElementById('ad-type').value;
+            if (type === 'code') {
+                document.getElementById('ad-code-group').style.display = 'block';
+                document.getElementById('ad-custom-group').style.display = 'none';
+            } else {
+                document.getElementById('ad-code-group').style.display = 'none';
+                document.getElementById('ad-custom-group').style.display = 'block';
+            }
+        }
+
+        function saveAdConfig(e) {
+            e.preventDefault();
+            const adConfig = {
+                type: document.getElementById('ad-type').value,
+                script: document.getElementById('ad-script').value,
+                imgUrl: document.getElementById('ad-img-url').value,
+                targetLink: document.getElementById('ad-target-link').value
+            };
+            localStorage.setItem('adConfig', JSON.stringify(adConfig));
+            showToast("Sidebar Ad settings updated live!");
+        }
+
+        function loadAdConfig() {
+            const saved = localStorage.getItem('adConfig');
+            if (saved) {
+                const config = JSON.parse(saved);
+                document.getElementById('ad-type').value = config.type || 'code';
+                document.getElementById('ad-script').value = config.script || '';
+                document.getElementById('ad-img-url').value = config.imgUrl || '';
+                document.getElementById('ad-target-link').value = config.targetLink || '';
+                toggleAdInputs();
+            }
+        }
+
+        function loadMessages() {
+            const savedMsgs = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const container = document.getElementById('messages-container');
+            if (savedMsgs.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); margin-top: 1rem;">No contact messages received yet.</p>';
+                return;
+            }
+
+            let html = '<table class="msg-table"><thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Message</th></tr></thead><tbody>';
+            savedMsgs.forEach(m => {
+                html += `<tr><td>${m.date}</td><td>${m.name}</td><td>${m.email}</td><td>${m.message}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function clearMessages() {
+            if (confirm("Are you sure you want to delete all messages?")) {
+                localStorage.removeItem('contactMessages');
+                loadMessages();
+                showToast("Messages cleared!");
+            }
+        }
+
+        function changePassword(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('new-pass').value;
+            localStorage.setItem('adminPassword', newPass);
+            showToast("Admin password updated!");
+            document.getElementById('new-pass').value = '';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+    </script>
+</body>
+</html>
