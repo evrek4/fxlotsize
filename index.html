@@ -831,7 +831,7 @@
 
             <!-- Right Side: Sticky Sidebar (%30 width on Desktop) -->
             <div class="sidebar-area">
-                <aside>
+                <aside id="sidebar-ad-container">
                     <div class="ad-placeholder">
                         <div>Advertisement</div>
                         <span>300 &times; 600</span>
@@ -840,6 +840,22 @@
             </div>
         </div>
     </main>
+
+    <!-- Dynamic Ad Loader Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const adContainer = document.getElementById('sidebar-ad-container');
+            const savedAd = localStorage.getItem('adConfig');
+            if (savedAd && adContainer) {
+                const config = JSON.parse(savedAd);
+                if (config.type === 'code' && config.script.trim() !== '') {
+                    adContainer.innerHTML = config.script;
+                } else if (config.type === 'custom' && config.imgUrl.trim() !== '') {
+                    adContainer.innerHTML = `<a href="${config.targetLink || '#'}" target="_blank" rel="noopener"><img src="${config.imgUrl}" alt="Advertisement" style="width:300px; height:600px; border-radius:10px; object-fit:cover;"></a>`;
+                }
+            }
+        });
+    </script>
 
     <!-- Site Footer -->
     <footer style="margin-top: 4rem; border-top: 1px solid var(--border); background: var(--bg-card); padding: 2rem 1rem; text-align: center;">
