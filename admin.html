@@ -184,7 +184,10 @@
 
     <!-- Admin Top Navbar -->
     <header>
-        <div class="brand">FXLotSize Admin Panel</div>
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div class="brand">FXLotSize Admin Panel</div>
+            <a href="/" target="_blank" style="color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; background: rgba(16, 185, 129, 0.15); padding: 0.4rem 0.8rem; border-radius: 8px;">&larr; View Main Site</a>
+        </div>
         <button onclick="handleLogout()" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Logout</button>
     </header>
 
@@ -194,6 +197,7 @@
             <button class="tab-btn active" onclick="switchTab('ads')">📢 Ad Management</button>
             <button class="tab-btn" onclick="switchTab('messages')">📬 Contact Messages</button>
             <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
+            <a href="/" target="_blank" style="margin-left: auto; color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 600; align-self: center;">🌐 Open Website &rarr;</a>
         </div>
 
         <!-- TAB 1: Multi-Zone Ad Management -->
