@@ -192,7 +192,7 @@
 
             .sidebar-area {
                 position: sticky;
-                top: 100px;
+                top: 180px;
                 height: fit-content;
             }
         }
@@ -419,11 +419,23 @@
             letter-spacing: 0.5px;
             color: var(--text-muted);
             font-weight: 600;
+        .ad-banner-sticky-wrapper {
+            position: sticky;
+            top: 75px;
+            z-index: 40;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
         .ad-banner-728 {
             width: 100%;
             max-width: 728px;
-            height: 90px;
-            margin: 1.5rem auto;
+            min-height: 90px;
+            margin: 0 auto;
             background: #1e293b;
             border: 2px dashed #334155;
             border-radius: var(--radius-md);
@@ -436,11 +448,20 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .ad-banner-728 span {
             font-size: 0.75rem;
             color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .ad-banner-728 {
+                min-height: 50px;
+                max-width: 320px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -460,11 +481,11 @@
         </div>
     </header>
 
-    <!-- Ad Zone 1: Top Leaderboard Banner (728x90) -->
-    <div id="ad-zone-header" style="padding: 0 1rem;">
+    <!-- Ad Zone 1: Sticky Top Banner (Desktop: 728x90, Mobile: 320x50) -->
+    <div id="ad-zone-header" class="ad-banner-sticky-wrapper">
         <div class="ad-banner-728">
             <div>Top Banner Advertisement</div>
-            <span>728 &times; 90</span>
+            <span>728 &times; 90 (Mobile: 320 &times; 50)</span>
         </div>
     </div>
 
