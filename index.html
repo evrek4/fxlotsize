@@ -419,6 +419,28 @@
             letter-spacing: 0.5px;
             color: var(--text-muted);
             font-weight: 600;
+        .ad-banner-728 {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            margin: 1.5rem auto;
+            background: #1e293b;
+            border: 2px dashed #334155;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-banner-728 span {
+            font-size: 0.75rem;
+            color: #475569;
         }
     </style>
 </head>
@@ -437,6 +459,14 @@
             </div>
         </div>
     </header>
+
+    <!-- Ad Zone 1: Top Leaderboard Banner (728x90) -->
+    <div id="ad-zone-header" style="padding: 0 1rem;">
+        <div class="ad-banner-728">
+            <div>Top Banner Advertisement</div>
+            <span>728 &times; 90</span>
+        </div>
+    </div>
 
     <main>
         <div class="layout-wrapper">
@@ -825,15 +855,21 @@
             </div>
 
             <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.05); margin: 2rem 0 1rem;">
-            <small style="display: block; font-size: 0.8rem; color: #475569; line-height: 1.4;">Disclaimer: FXLotSize provides mathematical calculation tools for informational purposes only. Trading financial instruments involves high risk. Always perform your own analysis.</small>
+            <!-- Ad Zone 3: Bottom Content Banner (728x90) -->
+            <div id="ad-zone-bottom" style="margin-top: 2rem;">
+                <div class="ad-banner-728">
+                    <div>Bottom Banner Advertisement</div>
+                    <span>728 &times; 90</span>
+                </div>
+            </div>
         </article>
             </div>
 
-            <!-- Right Side: Sticky Sidebar (%30 width on Desktop) -->
+            <!-- Right Side: Sticky Sidebar (%30 width on Desktop - Ad Zone 2) -->
             <div class="sidebar-area">
                 <aside id="sidebar-ad-container">
                     <div class="ad-placeholder">
-                        <div>Advertisement</div>
+                        <div>Sidebar Advertisement</div>
                         <span>300 &times; 600</span>
                     </div>
                 </aside>
@@ -841,17 +877,50 @@
         </div>
     </main>
 
-    <!-- Dynamic Ad Loader Script -->
+    <!-- Dynamic Ad Loader Script for All Ad Zones -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const adContainer = document.getElementById('sidebar-ad-container');
-            const savedAd = localStorage.getItem('adConfig');
-            if (savedAd && adContainer) {
-                const config = JSON.parse(savedAd);
-                if (config.type === 'code' && config.script.trim() !== '') {
-                    adContainer.innerHTML = config.script;
-                } else if (config.type === 'custom' && config.imgUrl.trim() !== '') {
-                    adContainer.innerHTML = `<a href="${config.targetLink || '#'}" target="_blank" rel="noopener"><img src="${config.imgUrl}" alt="Advertisement" style="width:300px; height:600px; border-radius:10px; object-fit:cover;"></a>`;
+            const savedAdManager = localStorage.getItem('adManagerConfig');
+            if (savedAdManager) {
+                const manager = JSON.parse(savedAdManager);
+
+                // 1. Top Banner Zone
+                const topZone = document.getElementById('ad-zone-header');
+                if (topZone) {
+                    if (manager.top && manager.top.enabled) {
+                        topZone.style.display = 'block';
+                        if (manager.top.code && manager.top.code.trim() !== '') {
+                            topZone.innerHTML = manager.top.code;
+                        }
+                    } else if (manager.top && !manager.top.enabled) {
+                        topZone.style.display = 'none';
+                    }
+                }
+
+                // 2. Sidebar Zone
+                const sidebarZone = document.getElementById('sidebar-ad-container');
+                if (sidebarZone) {
+                    if (manager.sidebar && manager.sidebar.enabled) {
+                        sidebarZone.style.display = 'block';
+                        if (manager.sidebar.code && manager.sidebar.code.trim() !== '') {
+                            sidebarZone.innerHTML = manager.sidebar.code;
+                        }
+                    } else if (manager.sidebar && !manager.sidebar.enabled) {
+                        sidebarZone.style.display = 'none';
+                    }
+                }
+
+                // 3. Bottom Banner Zone
+                const bottomZone = document.getElementById('ad-zone-bottom');
+                if (bottomZone) {
+                    if (manager.bottom && manager.bottom.enabled) {
+                        bottomZone.style.display = 'block';
+                        if (manager.bottom.code && manager.bottom.code.trim() !== '') {
+                            bottomZone.innerHTML = manager.bottom.code;
+                        }
+                    } else if (manager.bottom && !manager.bottom.enabled) {
+                        bottomZone.style.display = 'none';
+                    }
                 }
             }
         });
