@@ -58,7 +58,31 @@
             margin-bottom: 0.5rem;
         }
         p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
-        
+
+        .direct-email-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .email-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .email-address {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+        }
+        .email-address:hover { text-decoration: underline; }
+
         .form-group {
             margin-bottom: 1.25rem;
         }
@@ -101,16 +125,6 @@
             opacity: 0.9;
             transform: translateY(-1px);
         }
-        .success-msg {
-            display: none;
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid var(--accent);
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -126,25 +140,36 @@
         <a href="/" class="back-link">&larr; Back to FXLotSize Calculator</a>
         <div class="header">
             <h1>Contact Us</h1>
-            <p>Have questions, feature requests, or feedback? Send us a message!</p>
+            <p>Have questions, feature requests, or feedback? Send us a message or reach out via email.</p>
         </div>
 
-        <div id="success-message" class="success-msg">
-            Thank you! Your message has been submitted successfully.
+        <!-- Direct Email Card -->
+        <div class="direct-email-box">
+            <div>
+                <div class="email-label">Direct Support Email</div>
+                <a href="mailto:info@fxlotsize.com" class="email-address">info@fxlotsize.com</a>
+            </div>
+            <a href="mailto:info@fxlotsize.com" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Send Email &rarr;</a>
         </div>
 
-        <form id="contact-form" onsubmit="handleSubmit(event)">
+        <!-- Working Contact Form (via FormSubmit) -->
+        <form action="https://formsubmit.co/info@fxlotsize.com" method="POST">
+            <!-- FormSubmit Configurations -->
+            <input type="hidden" name="_subject" value="New Inquiry from FXLotSize Contact Form">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            
             <div class="form-group">
                 <label for="name">Your Name</label>
-                <input type="text" id="name" required placeholder="John Doe">
+                <input type="text" id="name" name="name" required placeholder="John Doe">
             </div>
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="john@example.com">
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
             </div>
             <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" rows="5" required placeholder="How can we help you?"></textarea>
+                <textarea id="message" name="message" rows="5" required placeholder="How can we help you?"></textarea>
             </div>
             <button type="submit">Send Message</button>
         </form>
@@ -153,13 +178,5 @@
             &copy; 2026 FXLotSize. All rights reserved.
         </footer>
     </div>
-
-    <script>
-        function handleSubmit(e) {
-            e.preventDefault();
-            document.getElementById('contact-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
