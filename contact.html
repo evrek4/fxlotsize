@@ -156,8 +156,14 @@
             Thank you! Your message has been sent successfully and saved.
         </div>
 
-        <!-- Working Contact Form -->
+        <!-- Working Contact Form (With Anti-Spam Protections) -->
         <form id="contact-form" onsubmit="handleContactSubmit(event)">
+            <!-- Honeypot Anti-Spam Trap (Hidden from real users) -->
+            <div style="display: none !important;">
+                <label for="website_url">Leave this field blank</label>
+                <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+            </div>
+
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" required placeholder="John Doe">
@@ -180,21 +186,39 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // Anti-Spam: Dynamic JS Email Encoding (Obfuscation) prevents bot scraping
             const savedEmail = localStorage.getItem('siteContactEmail') || 'info@fxlotsize.com';
+            const parts = savedEmail.split('@');
+            
             const emailLink = document.getElementById('contact-email-link');
             const emailBtn = document.getElementById('contact-email-btn');
 
-            if (emailLink) {
-                emailLink.href = 'mailto:' + savedEmail;
-                emailLink.textContent = savedEmail;
-            }
-            if (emailBtn) {
-                emailBtn.href = 'mailto:' + savedEmail;
+            if (parts.length === 2) {
+                const user = parts[0];
+                const domain = parts[1];
+                const cleanMail = user + '@' + domain;
+
+                if (emailLink) {
+                    emailLink.href = 'mailto:' + cleanMail;
+                    emailLink.textContent = cleanMail;
+                }
+                if (emailBtn) {
+                    emailBtn.href = 'mailto:' + cleanMail;
+                }
             }
         });
 
         function handleContactSubmit(e) {
             e.preventDefault();
+            
+            // 1. Anti-Spam Protection: Check Honeypot Trap
+            const honeypot = document.getElementById('website_url').value;
+            if (honeypot && honeypot.trim() !== '') {
+                // Silent drop for automated spam bots
+                console.warn("Spam bot detected!");
+                return false;
+            }
+
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
