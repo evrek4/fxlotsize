@@ -196,35 +196,58 @@
             <button class="tab-btn" onclick="switchTab('settings')">⚙️ Settings</button>
         </div>
 
-        <!-- TAB 1: Ad Management -->
+        <!-- TAB 1: Multi-Zone Ad Management -->
         <div id="tab-ads" class="panel-card">
-            <h2>Sidebar Banner Ad Management (300x600)</h2>
-            <form onsubmit="saveAdConfig(event)">
-                <div class="form-group">
-                    <label>Ad Type</label>
-                    <select id="ad-type" onchange="toggleAdInputs()">
-                        <option value="code">Google AdSense / HTML Script Code</option>
-                        <option value="custom">Custom Banner Image & Target Link</option>
-                    </select>
-                </div>
+            <h2>Multi-Zone Ad Management & Global Controls</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Manage all ad placements across the site. Enable or disable any ad zone individually or insert custom Google AdSense scripts.</p>
 
-                <div id="ad-code-group" class="form-group">
-                    <label>AdSense Script / HTML Embed Code</label>
-                    <textarea id="ad-script" rows="6" placeholder="<script async src='https://pagead2.googlesyndication.com/...'></script>"></textarea>
-                </div>
-
-                <div id="ad-custom-group" style="display: none;">
-                    <div class="form-group">
-                        <label>Banner Image URL (300x600)</label>
-                        <input type="text" id="ad-img-url" placeholder="https://example.com/banner.png">
+            <form onsubmit="saveAllAdZones(event)">
+                <!-- Zone 1: Top Leaderboard Banner (728x90) -->
+                <div style="background: var(--bg-input); border: 1px solid var(--border); padding: 1.25rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">1. Top Header Banner (728&times;90)</h3>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--accent); font-weight: 600;">
+                            <input type="checkbox" id="ad-top-enable" style="width: auto;" checked>
+                            Enable Top Ad Zone
+                        </label>
                     </div>
                     <div class="form-group">
-                        <label>Target Destination Link</label>
-                        <input type="text" id="ad-target-link" placeholder="https://example.com/ref-link">
+                        <label>AdSense / HTML Script Code (Leave blank for default placeholder)</label>
+                        <textarea id="ad-top-code" rows="3" placeholder="<script async src='https://pagead2.googlesyndication.com/...'></script>"></textarea>
                     </div>
                 </div>
 
-                <button type="submit" class="btn">Save & Update Ad</button>
+                <!-- Zone 2: Sticky Sidebar Banner (300x600) -->
+                <div style="background: var(--bg-input); border: 1px solid var(--border); padding: 1.25rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">2. Sticky Sidebar Banner (300&times;600)</h3>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--accent); font-weight: 600;">
+                            <input type="checkbox" id="ad-sidebar-enable" style="width: auto;" checked>
+                            Enable Sidebar Ad Zone
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>AdSense / HTML Script Code (Leave blank for default placeholder)</label>
+                        <textarea id="ad-sidebar-code" rows="3" placeholder="<script async src='https://pagead2.googlesyndication.com/...'></script>"></textarea>
+                    </div>
+                </div>
+
+                <!-- Zone 3: Bottom Banner (728x90) -->
+                <div style="background: var(--bg-input); border: 1px solid var(--border); padding: 1.25rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">3. Bottom Article Banner (728&times;90)</h3>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--accent); font-weight: 600;">
+                            <input type="checkbox" id="ad-bottom-enable" style="width: auto;" checked>
+                            Enable Bottom Ad Zone
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>AdSense / HTML Script Code (Leave blank for default placeholder)</label>
+                        <textarea id="ad-bottom-code" rows="3" placeholder="<script async src='https://pagead2.googlesyndication.com/...'></script>"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" style="padding: 0.9rem 2rem; font-size: 1rem;">Save & Apply All Ad Settings</button>
             </form>
         </div>
 
@@ -341,27 +364,42 @@
             }
         }
 
-        function saveAdConfig(e) {
+        function saveAllAdZones(e) {
             e.preventDefault();
-            const adConfig = {
-                type: document.getElementById('ad-type').value,
-                script: document.getElementById('ad-script').value,
-                imgUrl: document.getElementById('ad-img-url').value,
-                targetLink: document.getElementById('ad-target-link').value
+            const managerConfig = {
+                top: {
+                    enabled: document.getElementById('ad-top-enable').checked,
+                    code: document.getElementById('ad-top-code').value
+                },
+                sidebar: {
+                    enabled: document.getElementById('ad-sidebar-enable').checked,
+                    code: document.getElementById('ad-sidebar-code').value
+                },
+                bottom: {
+                    enabled: document.getElementById('ad-bottom-enable').checked,
+                    code: document.getElementById('ad-bottom-code').value
+                }
             };
-            localStorage.setItem('adConfig', JSON.stringify(adConfig));
-            showToast("Sidebar Ad settings updated live!");
+            localStorage.setItem('adManagerConfig', JSON.stringify(managerConfig));
+            showToast("All Ad zone settings & toggles updated live!");
         }
 
         function loadAdConfig() {
-            const saved = localStorage.getItem('adConfig');
+            const saved = localStorage.getItem('adManagerConfig');
             if (saved) {
                 const config = JSON.parse(saved);
-                document.getElementById('ad-type').value = config.type || 'code';
-                document.getElementById('ad-script').value = config.script || '';
-                document.getElementById('ad-img-url').value = config.imgUrl || '';
-                document.getElementById('ad-target-link').value = config.targetLink || '';
-                toggleAdInputs();
+                if (config.top) {
+                    document.getElementById('ad-top-enable').checked = config.top.enabled;
+                    document.getElementById('ad-top-code').value = config.top.code || '';
+                }
+                if (config.sidebar) {
+                    document.getElementById('ad-sidebar-enable').checked = config.sidebar.enabled;
+                    document.getElementById('ad-sidebar-code').value = config.sidebar.code || '';
+                }
+                if (config.bottom) {
+                    document.getElementById('ad-bottom-enable').checked = config.bottom.enabled;
+                    document.getElementById('ad-bottom-code').value = config.bottom.code || '';
+                }
             }
         }
 
