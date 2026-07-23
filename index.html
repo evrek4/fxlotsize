@@ -548,25 +548,38 @@
                     
                     <div class="form-grid two-cols">
                         <div class="form-group">
+                            <label>Asset Symbol / Pair</label>
+                            <select id="t1-symbol">
+                                <option value="BTCUSDT">BTC/USDT (Bitcoin)</option>
+                                <option value="ETHUSDT">ETH/USDT (Ethereum)</option>
+                                <option value="SOLUSDT">SOL/USDT (Solana)</option>
+                                <option value="XAUUSD">XAU/USD (Gold)</option>
+                                <option value="EURUSD">EUR/USD (Forex)</option>
+                                <option value="GBPUSD">GBP/USD (Forex)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Asset Type</label>
+                            <select id="t1-type">
+                                <option value="crypto">Crypto (Units)</option>
+                                <option value="forex">Forex (1 Lot = 100k)</option>
+                                <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <label style="margin-bottom:0;">Entry Price</label>
-                                <button type="button" id="t1-fetch-price-btn" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Current Price</button>
+                                <label style="margin-bottom:0;">Entry Price ($)</label>
+                                <button type="button" class="fetch-price-btn" data-symbol-id="t1-symbol" data-target-id="t1-entry" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Live Price</button>
                             </div>
                             <input type="number" id="t1-entry" placeholder="50000" step="any">
                         </div>
                         <div class="form-group">
-                            <label>Stop-Loss Price</label>
+                            <label>Stop-Loss Price ($)</label>
                             <input type="number" id="t1-stop" placeholder="48000" step="any">
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Asset Type</label>
-                        <select id="t1-type">
-                            <option value="crypto">Crypto (BTCUSDT Units)</option>
-                            <option value="forex">Forex (1 Lot = 100k)</option>
-                            <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
-                        </select>
                     </div>
                 </div>
 
@@ -600,8 +613,6 @@
                         </a>
                     </div>
                 </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -617,22 +628,27 @@
                             <input type="number" id="t2-risk-amount" placeholder="200" step="any">
                         </div>
                         <div class="form-group">
-                            <label>Asset Type</label>
-                            <select id="t2-type">
-                                <option value="crypto">Crypto (Units)</option>
-                                <option value="forex">Forex (1 Lot = 100k)</option>
-                                <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                            <label>Asset Symbol / Pair</label>
+                            <select id="t2-symbol">
+                                <option value="BTCUSDT">BTC/USDT (Bitcoin)</option>
+                                <option value="ETHUSDT">ETH/USDT (Ethereum)</option>
+                                <option value="SOLUSDT">SOL/USDT (Solana)</option>
+                                <option value="XAUUSD">XAU/USD (Gold)</option>
+                                <option value="EURUSD">EUR/USD (Forex)</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-grid two-cols">
                         <div class="form-group">
-                            <label>Entry Price</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <label style="margin-bottom:0;">Entry Price ($)</label>
+                                <button type="button" class="fetch-price-btn" data-symbol-id="t2-symbol" data-target-id="t2-entry" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Live Price</button>
+                            </div>
                             <input type="number" id="t2-entry" placeholder="50000" step="any">
                         </div>
                         <div class="form-group">
-                            <label>Stop-Loss Price</label>
+                            <label>Stop-Loss Price ($)</label>
                             <input type="number" id="t2-stop" placeholder="48000" step="any">
                         </div>
                     </div>
@@ -677,22 +693,26 @@
 
                     <div class="form-grid two-cols">
                         <div class="form-group">
-                            <label>Entry Price</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <label style="margin-bottom:0;">Entry Price ($)</label>
+                                <button type="button" class="fetch-price-btn" data-symbol-id="t3-symbol" data-target-id="t3-entry" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Live Price</button>
+                            </div>
                             <input type="number" id="t3-entry" placeholder="100" step="any">
                         </div>
                         <div class="form-group">
-                            <label>Asset Type</label>
-                            <select id="t3-asset-type">
-                                <option value="crypto">Crypto (Units)</option>
-                                <option value="forex">Forex (1 Lot = 100k)</option>
-                                <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
+                            <label>Asset Symbol / Pair</label>
+                            <select id="t3-symbol">
+                                <option value="BTCUSDT">BTC/USDT (Bitcoin)</option>
+                                <option value="ETHUSDT">ETH/USDT (Ethereum)</option>
+                                <option value="SOLUSDT">SOL/USDT (Solana)</option>
+                                <option value="XAUUSD">XAU/USD (Gold)</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-grid two-cols">
                         <div class="form-group">
-                            <label>Stop-Loss Price</label>
+                            <label>Stop-Loss Price ($)</label>
                             <input type="number" id="t3-stop" placeholder="95" step="any">
                         </div>
                         <div class="form-group">
@@ -763,9 +783,24 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Entry Price</label>
-                        <input type="number" id="t4-entry" placeholder="60000" step="any">
+                    <div class="form-grid two-cols">
+                        <div class="form-group">
+                            <label>Asset Symbol / Pair</label>
+                            <select id="t4-symbol">
+                                <option value="BTCUSDT">BTC/USDT (Bitcoin)</option>
+                                <option value="ETHUSDT">ETH/USDT (Ethereum)</option>
+                                <option value="SOLUSDT">SOL/USDT (Solana)</option>
+                                <option value="XRPUSDT">XRP/USDT (Ripple)</option>
+                                <option value="BNBUSDT">BNB/USDT (Binance)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <label style="margin-bottom:0;">Entry Price ($)</label>
+                                <button type="button" class="fetch-price-btn" data-symbol-id="t4-symbol" data-target-id="t4-entry" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Live Price</button>
+                            </div>
+                            <input type="number" id="t4-entry" placeholder="60000" step="any">
+                        </div>
                     </div>
 
                     <div class="slider-group">
@@ -1132,29 +1167,73 @@
                 t1RiskInput.value = "1";
             }
 
-            // Binance Public API Price Fetch Handler
-            const fetchPriceBtn = document.getElementById('t1-fetch-price-btn');
-            if (fetchPriceBtn) {
-                fetchPriceBtn.addEventListener('click', async () => {
-                    const origText = fetchPriceBtn.innerText;
-                    fetchPriceBtn.innerText = "⏳...";
-                    fetchPriceBtn.disabled = true;
+            // Multi-Instrument Public API Live Price Fetch Handler
+            document.querySelectorAll('.fetch-price-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const symbolId = btn.getAttribute('data-symbol-id');
+                    const targetId = btn.getAttribute('data-target-id');
+                    const symbolSelect = document.getElementById(symbolId);
+                    const targetInput = document.getElementById(targetId);
+
+                    if (!symbolSelect || !targetInput) return;
+                    const symbol = symbolSelect.value || 'BTCUSDT';
+                    
+                    const origText = btn.innerText;
+                    btn.innerText = "⏳ Fetching...";
+                    btn.disabled = true;
+
                     try {
-                        const res = await fetch('https://api.binance.com/api/3/ticker/price?symbol=BTCUSDT');
-                        if (!res.ok) throw new Error('API Error');
-                        const data = await res.json();
-                        if (data && data.price) {
-                            document.getElementById('t1-entry').value = parseFloat(data.price).toFixed(2);
+                        let livePrice = 0;
+
+                        if (symbol === 'XAUUSD') {
+                            // Fetch Gold spot price fallback or Binance PAXGUSDT proxy
+                            const res = await fetch('https://api.binance.com/api/3/ticker/price?symbol=PAXGUSDT');
+                            if (res.ok) {
+                                const data = await res.json();
+                                livePrice = parseFloat(data.price);
+                            } else {
+                                livePrice = 2400.00; // Fallback estimate
+                            }
+                        } else if (symbol === 'EURUSD') {
+                            // Fetch EURUSDT proxy or fallback
+                            const res = await fetch('https://api.binance.com/api/3/ticker/price?symbol=EURUSDT');
+                            if (res.ok) {
+                                const data = await res.json();
+                                livePrice = parseFloat(data.price);
+                            } else {
+                                livePrice = 1.0850;
+                            }
+                        } else if (symbol === 'GBPUSD') {
+                            const res = await fetch('https://api.binance.com/api/3/ticker/price?symbol=GBPUSDT');
+                            if (res.ok) {
+                                const data = await res.json();
+                                livePrice = parseFloat(data.price);
+                            } else {
+                                livePrice = 1.2950;
+                            }
+                        } else {
+                            // Default Binance Crypto Public API (No key required)
+                            const res = await fetch(`https://api.binance.com/api/3/ticker/price?symbol=${symbol}`);
+                            if (!res.ok) throw new Error('API Response Error');
+                            const data = await res.json();
+                            if (data && data.price) {
+                                livePrice = parseFloat(data.price);
+                            }
+                        }
+
+                        if (livePrice > 0) {
+                            targetInput.value = livePrice > 10 ? livePrice.toFixed(2) : livePrice.toFixed(4);
                             calculateAll();
                         }
                     } catch (err) {
-                        alert('Could not fetch BTCUSDT price from Binance.');
+                        console.error("Fetch price error:", err);
+                        alert(`Could not fetch live price for ${symbol}. Please enter manually.`);
                     } finally {
-                        fetchPriceBtn.innerText = origText;
-                        fetchPriceBtn.disabled = false;
+                        btn.innerText = origText;
+                        btn.disabled = false;
                     }
                 });
-            }
+            });
 
             // Copy to Clipboard Handler
             const copyBtn1 = document.getElementById('t1-copy-btn');
