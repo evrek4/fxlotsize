@@ -147,9 +147,9 @@
         <div class="direct-email-box">
             <div>
                 <div class="email-label">Direct Support Email</div>
-                <a href="mailto:info@fxlotsize.com" class="email-address">info@fxlotsize.com</a>
+                <a href="mailto:info@fxlotsize.com" id="contact-email-link" class="email-address">info@fxlotsize.com</a>
             </div>
-            <a href="mailto:info@fxlotsize.com" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Send Email &rarr;</a>
+            <a href="mailto:info@fxlotsize.com" id="contact-email-btn" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Send Email &rarr;</a>
         </div>
 
         <div id="success-msg" style="display: none; background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 1rem; border-radius: 10px; text-align: center; margin-bottom: 1.5rem; border: 1px solid var(--accent);">
@@ -179,6 +179,20 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedEmail = localStorage.getItem('siteContactEmail') || 'info@fxlotsize.com';
+            const emailLink = document.getElementById('contact-email-link');
+            const emailBtn = document.getElementById('contact-email-btn');
+
+            if (emailLink) {
+                emailLink.href = 'mailto:' + savedEmail;
+                emailLink.textContent = savedEmail;
+            }
+            if (emailBtn) {
+                emailBtn.href = 'mailto:' + savedEmail;
+            }
+        });
+
         function handleContactSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
