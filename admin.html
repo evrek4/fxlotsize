@@ -242,6 +242,17 @@
 
         <!-- TAB 3: Settings -->
         <div id="tab-settings" class="panel-card" style="display: none;">
+            <h2>Contact Email Settings</h2>
+            <form onsubmit="saveEmailSettings(event)">
+                <div class="form-group">
+                    <label>Official Support Email Address (Displayed on Contact Page)</label>
+                    <input type="email" id="contact-email-input" placeholder="info@fxlotsize.com">
+                </div>
+                <button type="submit" class="btn">Save Contact Email</button>
+            </form>
+
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
+
             <h2>Admin Password Settings</h2>
             <form onsubmit="changePassword(event)">
                 <div class="form-group">
@@ -266,7 +277,20 @@
             }
             loadAdConfig();
             loadMessages();
+            loadEmailSettings();
         });
+
+        function saveEmailSettings(e) {
+            e.preventDefault();
+            const email = document.getElementById('contact-email-input').value;
+            localStorage.setItem('siteContactEmail', email);
+            showToast("Contact Email updated live on site!");
+        }
+
+        function loadEmailSettings() {
+            const savedEmail = localStorage.getItem('siteContactEmail') || 'info@fxlotsize.com';
+            document.getElementById('contact-email-input').value = savedEmail;
+        }
 
         function handleLogin(e) {
             e.preventDefault();
