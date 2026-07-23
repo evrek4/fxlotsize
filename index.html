@@ -6,17 +6,51 @@
     <!-- Primary Meta Tags -->
     <title>Free Forex, Crypto & Gold Lot Size Calculator | FXLotSize</title>
     <meta name="title" content="Free Forex, Crypto & Gold Lot Size Calculator | FXLotSize">
-    <meta name="description" content="Free advanced Forex, Crypto and Gold lot size calculator. Calculate exact position sizes, risk amounts, leverage limits, and liquidation prices instantly with FXLotSize.">
-    <meta name="keywords" content="forex lot size calculator, crypto position sizer, gold risk calculator, risk to reward planner, trading risk management, leverage calculator, liquidation price calculator">
+    <meta name="description" content="Calculate your crypto liquidation price instantly with our high leverage margin simulator, compute exponential growth with compounding interest calculator, and calculate precise Forex & Gold lot sizes with FXLotSize.">
+    <meta name="keywords" content="forex lot size calculator, crypto position sizer, gold risk calculator, liquidation price calculator, crypto margin simulator, leverage liquidation calculator, compounding interest growth calculator, forex compound calculator, trading risk management">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <link rel="canonical" href="https://fxlotsize.com/">
+
+    <!-- Schema.org FAQPage JSON-LD Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the standard lot size in Forex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard lot in Forex equals 100,000 units of the base currency. For example, trading 1 standard lot of EUR/USD represents buying or selling 100,000 Euros."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to calculate 1% risk per trade?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "To calculate 1% risk per trade, multiply your total account balance by 0.01 (e.g., $100 risk on a $10,000 account). Then divide this dollar risk amount by your stop loss distance multiplied by the pip value to determine your exact position/lot size."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does 1 lot of Gold equal 100 ounces?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, on standard MetaTrader 4 / MetaTrader 5 Forex and CFD broker platforms, 1 standard lot of Gold (XAUUSD) controls exactly 100 troy ounces of gold."
+          }
+        }
+      ]
+    }
+    </script>
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fxlotsize.com/">
     <meta property="og:title" content="Free Forex, Crypto & Gold Lot Size Calculator | FXLotSize">
-    <meta property="og:description" content="Free advanced Forex, Crypto and Gold lot size calculator. Calculate exact position sizes, risk amounts, leverage limits, and liquidation prices instantly with FXLotSize.">
+    <meta property="og:description" content="Calculate your crypto liquidation price instantly with our high leverage margin simulator and calculate exact position sizes with FXLotSize.">
     <meta property="og:image" content="https://fxlotsize.com/og-image.png">
     <meta property="og:site_name" content="FXLotSize">
 
@@ -24,7 +58,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://fxlotsize.com/">
     <meta property="twitter:title" content="Free Forex, Crypto & Gold Lot Size Calculator | FXLotSize">
-    <meta property="twitter:description" content="Free advanced Forex, Crypto and Gold lot size calculator. Calculate exact position sizes, risk amounts, leverage limits, and liquidation prices instantly with FXLotSize.">
+    <meta property="twitter:description" content="Calculate your crypto liquidation price instantly with our high leverage margin simulator and calculate exact position sizes with FXLotSize.">
     <meta property="twitter:image" content="https://fxlotsize.com/og-image.png">
 
     <!-- Favicon & Fonts -->
@@ -474,9 +508,11 @@
                 <button class="tab-btn active" data-target="tab1">Capital Risk (1)</button>
                 <button class="tab-btn" data-target="tab2">Fixed Risk (2)</button>
                 <button class="tab-btn" data-target="tab3">R:R Planner (3)</button>
-                <button class="tab-btn" data-target="tab4">Liq Sim (4)</button>
-                <button class="tab-btn" data-target="tab5">Compounding (5)</button>
+                <button class="tab-btn" data-target="tab4" id="liquidation_simulator">Liq Sim (4)</button>
+                <button class="tab-btn" data-target="tab5" id="compounding_calculator">Compounding (5)</button>
                 <button class="tab-btn" data-target="tab6">Calendar (6)</button>
+                <a href="xauusd-calculator.html" class="tab-btn" style="text-decoration:none; color:#f59e0b; border-color: rgba(245, 158, 11, 0.4);">🪙 Gold (XAUUSD)</a>
+                <a href="us30-calculator.html" class="tab-btn" style="text-decoration:none; color:#60a5fa; border-color: rgba(96, 165, 250, 0.4);">📊 US30 (Dow Jones)</a>
             </div>
         </div>
     </header>
@@ -512,7 +548,10 @@
                     
                     <div class="form-grid two-cols">
                         <div class="form-group">
-                            <label>Entry Price</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <label style="margin-bottom:0;">Entry Price</label>
+                                <button type="button" id="t1-fetch-price-btn" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; cursor: pointer;">⚡ Get Current Price</button>
+                            </div>
                             <input type="number" id="t1-entry" placeholder="50000" step="any">
                         </div>
                         <div class="form-group">
@@ -524,17 +563,17 @@
                     <div class="form-group">
                         <label>Asset Type</label>
                         <select id="t1-type">
-                            <option value="crypto">Crypto (Units)</option>
+                            <option value="crypto">Crypto (BTCUSDT Units)</option>
                             <option value="forex">Forex (1 Lot = 100k)</option>
                             <option value="metals">Metals (Gold/Silver - 1 Lot = 100 oz)</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="result-box">
+                <div class="result-box" style="background: #111827; border: 1px solid var(--border);">
                     <div class="result-item">
                         <span class="result-label">Amount at Risk</span>
-                        <span class="result-value danger" id="r1-amount-risk">$0.00</span>
+                        <span class="result-value" style="color: #b3261e; font-weight: 800;" id="r1-amount-risk">$0.00</span>
                     </div>
                     <div class="result-item">
                         <span class="result-label">Distance to Stop</span>
@@ -544,9 +583,23 @@
                         <span class="result-label">Position Size (Notional)</span>
                         <span class="result-value" id="r1-pos-size">$0.00</span>
                     </div>
-                    <div class="result-item">
+                    <div class="result-item" style="position: relative;">
                         <span class="result-label">Final Size</span>
-                        <span class="result-value highlight" id="r1-final-size">0.0000 Units</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; position: relative;">
+                            <span class="result-value" style="color: #10b981; font-weight: 800;" id="r1-final-size">0.0000 Units</span>
+                            <button type="button" id="t1-copy-btn" style="background: #334155; color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; position: relative;" title="Copy to clipboard">
+                                📋
+                                <span id="t1-copy-tooltip" style="display: none; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #10b981; border: 1px solid #10b981; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; white-space: nowrap;">Kopyalandı!</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.5rem; text-align: center; border-top: 1px border var(--border); padding-top: 0.5rem;">
+                        <a id="t1-share-twitter" href="#" target="_blank" style="display: inline-flex; align-items: center; gap: 0.4rem; color: #94a3b8; font-size: 0.8rem; text-decoration: none; padding: 0.4rem 0.8rem; background: #0f172a; border-radius: 6px; border: 1px solid #334155;">
+                            <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            Share this calculation on Twitter
+                        </a>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -1063,6 +1116,58 @@
                 calcTab5();
             }
 
+            // LocalStorage persistence for Balance and Risk
+            const t1BalInput = document.getElementById('t1-balance');
+            const t1RiskInput = document.getElementById('t1-risk');
+
+            if (localStorage.getItem('fx_balance') && t1BalInput) {
+                t1BalInput.value = localStorage.getItem('fx_balance');
+            } else if (t1BalInput && !t1BalInput.value) {
+                t1BalInput.value = "1000";
+            }
+
+            if (localStorage.getItem('fx_risk') && t1RiskInput) {
+                t1RiskInput.value = localStorage.getItem('fx_risk');
+            } else if (t1RiskInput && !t1RiskInput.value) {
+                t1RiskInput.value = "1";
+            }
+
+            // Binance Public API Price Fetch Handler
+            const fetchPriceBtn = document.getElementById('t1-fetch-price-btn');
+            if (fetchPriceBtn) {
+                fetchPriceBtn.addEventListener('click', async () => {
+                    const origText = fetchPriceBtn.innerText;
+                    fetchPriceBtn.innerText = "⏳...";
+                    fetchPriceBtn.disabled = true;
+                    try {
+                        const res = await fetch('https://api.binance.com/api/3/ticker/price?symbol=BTCUSDT');
+                        if (!res.ok) throw new Error('API Error');
+                        const data = await res.json();
+                        if (data && data.price) {
+                            document.getElementById('t1-entry').value = parseFloat(data.price).toFixed(2);
+                            calculateAll();
+                        }
+                    } catch (err) {
+                        alert('Could not fetch BTCUSDT price from Binance.');
+                    } finally {
+                        fetchPriceBtn.innerText = origText;
+                        fetchPriceBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Copy to Clipboard Handler
+            const copyBtn1 = document.getElementById('t1-copy-btn');
+            const copyTooltip1 = document.getElementById('t1-copy-tooltip');
+            if (copyBtn1 && copyTooltip1) {
+                copyBtn1.addEventListener('click', async () => {
+                    const val = document.getElementById('r1-final-size').textContent.replace(/ Units| Lots/g, '');
+                    await navigator.clipboard.writeText(val);
+                    copyTooltip1.style.display = 'block';
+                    setTimeout(() => { copyTooltip1.style.display = 'none'; }, 2000);
+                });
+            }
+
             // Tab 1: Position Size & Risk Calculator (Capital-Based)
             function calcTab1() {
                 const balance = parseFloat(document.getElementById('t1-balance').value) || 0;
@@ -1070,6 +1175,9 @@
                 const entry = parseFloat(document.getElementById('t1-entry').value) || 0;
                 const stop = parseFloat(document.getElementById('t1-stop').value) || 0;
                 const type = document.getElementById('t1-type').value;
+
+                if (t1BalInput) localStorage.setItem('fx_balance', t1BalInput.value);
+                if (t1RiskInput) localStorage.setItem('fx_risk', t1RiskInput.value);
 
                 const amountRisk = balance * (risk / 100);
                 let distance = 0;
@@ -1095,12 +1203,22 @@
                 document.getElementById('r1-pos-size').textContent = '$' + posSize.toFixed(2);
                 
                 let finalStr = '';
+                let numOnly = '';
                 if (type === 'crypto') {
-                    finalStr = finalSize.toFixed(4) + ' Units';
+                    numOnly = finalSize.toFixed(4);
+                    finalStr = numOnly + ' Units';
                 } else {
-                    finalStr = finalSize.toFixed(2) + ' Lots';
+                    numOnly = finalSize.toFixed(2);
+                    finalStr = numOnly + ' Lots';
                 }
                 document.getElementById('r1-final-size').textContent = finalStr;
+
+                // Update Twitter Share Link
+                const shareBtn = document.getElementById('t1-share-twitter');
+                if (shareBtn) {
+                    const text = `I just calculated my risk: Longing BTC from $${entry || 65000}, risking ${risk}%. Optimal position size: ${finalStr}. Calculated via @FXLotSize fxlotsize.com`;
+                    shareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+                }
             }
 
             // Tab 2: Fixed Risk Position Sizer (Amount-Based)

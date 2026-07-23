@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Primary Meta Tags -->
+    <title>Advanced XAUUSD (Gold) Lot Size & Risk Calculator | FXLotSize</title>
+    <meta name="title" content="Advanced XAUUSD (Gold) Lot Size & Risk Calculator | FXLotSize">
+    <meta name="description" content="Calculate precise Gold (XAUUSD) lot sizes, position sizing, pip value, and risk limits for Gold trading on Forex & Prop Firms with FXLotSize.">
+    <meta name="keywords" content="XAUUSD lot size calculator, gold lot size calculator, gold position size calculator, xauusd risk calculator, prop firm gold lot calculator, FTMO gold lot size">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <link rel="canonical" href="https://fxlotsize.com/xauusd-calculator.html">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fxlotsize.com/xauusd-calculator.html">
+    <meta property="og:title" content="Advanced XAUUSD (Gold) Lot Size & Risk Calculator | FXLotSize">
+    <meta property="og:description" content="Free online XAUUSD (Gold) Lot Size & Risk Calculator. Determine exact position size and safe lot size for Gold trading across funded accounts.">
+    <meta property="og:site_name" content="FXLotSize">
+
+    <!-- Twitter Cards -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://fxlotsize.com/xauusd-calculator.html">
+    <meta property="twitter:title" content="Advanced XAUUSD (Gold) Lot Size & Risk Calculator">
+    <meta property="twitter:description" content="Calculate precise Gold (XAUUSD) lot sizes and manage prop firm daily loss limits automatically.">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Advanced XAUUSD (Gold) Lot Size & Risk Calculator",
+      "url": "https://fxlotsize.com/xauusd-calculator.html",
+      "description": "Professional position sizing tool tailored specifically for Gold (XAUUSD) trading and prop firm challenge rules.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the standard lot size for Gold (XAUUSD)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On standard MetaTrader 4 / MetaTrader 5 Forex and CFD broker platforms, 1 standard lot of Gold (XAUUSD) controls exactly 100 troy ounces of gold."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much is a $1.00 move in Gold (XAUUSD)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A $1.00 price movement in Gold (e.g., from $2400.00 to $2401.00) equals 10 pips. Trading 1 standard lot result in a $100 profit or loss for every $1.00 move."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Favicon & Fonts -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-base: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --accent: #f59e0b; /* Gold Amber Accent */
+            --accent-glow: rgba(245, 158, 11, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --danger: #b3261e;
+            --success: #146c2e;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-family); background-color: var(--bg-base); color: var(--text-main); line-height: 1.5; padding-bottom: 4rem; }
+        header { padding: 1.5rem 1rem; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); text-align: center; }
+        h1 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; justify-content: center; gap: 1rem; margin-top: 0.75rem; font-size: 0.85rem; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); font-weight: 600; }
+        .container { max-width: 650px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
+        input, select { width: 100%; padding: 0.75rem; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-main); font-size: 0.95rem; outline: none; }
+        .result-box-container { background: #111827; border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+        .result-val { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+        .text-risk-danger { color: #b3261e !important; font-weight: 800; }
+        .text-profit-success { color: #146c2e !important; font-weight: 800; }
+        .copy-btn { background: #334155; color: #fff; border: none; padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 0.5rem; position: relative; }
+        .tooltip { display: none; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #10b981; border: 1px solid #10b981; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+        .share-twitter { display: inline-flex; align-items: center; gap: 0.4rem; color: #94a3b8; font-size: 0.8rem; text-decoration: none; margin-top: 0.75rem; padding: 0.4rem 0.8rem; background: #0f172a; border-radius: 6px; border: 1px solid #334155; }
+        .share-twitter:hover { color: #fff; }
+        article { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+        article h2 { color: var(--text-main); margin-bottom: 0.75rem; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced XAUUSD (Gold) Lot Size & Risk Calculator</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="xauusd-calculator.html" class="active">Gold (XAUUSD)</a>
+            <a href="us30-calculator.html">US30 (Dow Jones)</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="form-group">
+                <label>Account Balance ($)</label>
+                <input type="number" id="gold-balance" value="10000" step="any">
+            </div>
+            <div class="form-group">
+                <label>Risk Percentage (%)</label>
+                <input type="number" id="gold-risk" value="1.0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Entry Price ($)</label>
+                <input type="number" id="gold-entry" value="2400.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Stop-Loss Price ($)</label>
+                <input type="number" id="gold-stop" value="2395.00" step="0.01">
+            </div>
+
+            <div class="result-box-container">
+                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Optimal Position Size (Gold Lots)</span>
+                <div style="display: flex; align-items: center; justify-center: center;">
+                    <span class="result-val" id="gold-result">2.00 Lots</span>
+                    <button class="copy-btn" id="copy-btn">📋<span class="tooltip" id="copy-tooltip">Kopyalandı!</span></button>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                    Amount at Risk: <span class="text-risk-danger" id="gold-risk-amt">$100.00</span>
+                </div>
+                <div>
+                    <a id="share-twitter-btn" href="#" target="_blank" class="share-twitter">
+                        Share this calculation on Twitter
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <article>
+                <h2>Why Accurate Lot Size Calculation is Critical for XAUUSD (Gold)</h2>
+                <p>
+                    Gold is one of the most liquid yet volatile assets in financial markets. In standard broker specifications, 1 standard lot of Gold equals 100 troy ounces. A $1.00 move in gold price equals 10 pips, representing a $100 change in value per standard lot.
+                </p>
+                <h3 style="color: var(--text-main); margin-top: 1rem; margin-bottom: 0.5rem;">Managing Prop Firm Limits on Gold</h3>
+                <p>
+                    Because Gold experiences sharp price movements, risking a fixed lot size without proper calculation can instantly breach your daily drawdown limit on prop firms like FTMO or Topstep. Always calculate your exact position size before entering orders.
+                </p>
+            </article>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const balInput = document.getElementById('gold-balance');
+            const riskInput = document.getElementById('gold-risk');
+            const entryInput = document.getElementById('gold-entry');
+            const stopInput = document.getElementById('gold-stop');
+            const resultEl = document.getElementById('gold-result');
+            const riskAmtEl = document.getElementById('gold-risk-amt');
+            const shareBtn = document.getElementById('share-twitter-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const copyTooltip = document.getElementById('copy-tooltip');
+
+            // LocalStorage
+            if (localStorage.getItem('fx_balance')) balInput.value = localStorage.getItem('fx_balance');
+            if (localStorage.getItem('fx_risk')) riskInput.value = localStorage.getItem('fx_risk');
+
+            function calculate() {
+                const bal = parseFloat(balInput.value) || 0;
+                const riskPct = parseFloat(riskInput.value) || 0;
+                const entry = parseFloat(entryInput.value) || 0;
+                const stop = parseFloat(stopInput.value) || 0;
+
+                localStorage.setItem('fx_balance', balInput.value);
+                localStorage.setItem('fx_risk', riskInput.value);
+
+                const riskAmt = bal * (riskPct / 100);
+                riskAmtEl.textContent = '$' + riskAmt.toFixed(2);
+
+                let lotSize = 0;
+                const dist = Math.abs(entry - stop);
+                if (entry > 0 && dist > 0) {
+                    // 1 Lot Gold = 100 oz. Price diff * 100 = $ per lot.
+                    lotSize = riskAmt / (dist * 100);
+                }
+
+                const lotFormatted = lotSize.toFixed(2);
+                resultEl.textContent = lotFormatted + ' Lots';
+
+                const shareText = `I just calculated my risk: Longing Gold (XAUUSD) from $${entry}, risking ${riskPct}%. Optimal position size: ${lotFormatted} Lots. Calculated via @FXLotSize fxlotsize.com`;
+                shareBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+            }
+
+            [balInput, riskInput, entryInput, stopInput].forEach(el => el.addEventListener('input', calculate));
+            calculate();
+
+            copyBtn.addEventListener('click', async () => {
+                const val = resultEl.textContent.replace(' Lots', '');
+                await navigator.clipboard.writeText(val);
+                copyTooltip.style.display = 'block';
+                setTimeout(() => { copyTooltip.style.display = 'none'; }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
