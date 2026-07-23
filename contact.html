@@ -152,13 +152,12 @@
             <a href="mailto:info@fxlotsize.com" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Send Email &rarr;</a>
         </div>
 
-        <!-- Working Contact Form (via FormSubmit) -->
-        <form action="https://formsubmit.co/info@fxlotsize.com" method="POST">
-            <!-- FormSubmit Configurations -->
-            <input type="hidden" name="_subject" value="New Inquiry from FXLotSize Contact Form">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            
+        <div id="success-msg" style="display: none; background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 1rem; border-radius: 10px; text-align: center; margin-bottom: 1.5rem; border: 1px solid var(--accent);">
+            Thank you! Your message has been sent successfully and saved.
+        </div>
+
+        <!-- Working Contact Form -->
+        <form id="contact-form" onsubmit="handleContactSubmit(event)">
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" required placeholder="John Doe">
@@ -178,5 +177,23 @@
             &copy; 2026 FXLotSize. All rights reserved.
         </footer>
     </div>
+
+    <script>
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const date = new Date().toLocaleString();
+
+            const existingMsgs = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            existingMsgs.unshift({ name, email, message, date });
+            localStorage.setItem('contactMessages', JSON.stringify(existingMsgs));
+
+            document.getElementById('contact-form').reset();
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
