@@ -688,9 +688,31 @@
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner (GDPR / AdSense Compliant) -->
+    <div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 600px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(12px); border: 1px solid var(--border); padding: 1.25rem 1.5rem; border-radius: 14px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); z-index: 9999; flex-direction: row; align-items: center; justify-content: space-between; gap: 1rem; color: var(--text-main);">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
+            We use cookies to personalize content and analyze our traffic to enhance your experience. By continuing, you agree to our <a href="/privacy.html" style="color: var(--accent); text-decoration: underline;">Privacy Policy</a>.
+        </p>
+        <button id="accept-cookie-btn" style="background: var(--accent); color: #0f172a; border: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; white-space: nowrap; transition: opacity 0.2s;">
+            Accept All
+        </button>
+    </div>
+
     <!-- Vanilla JS Logic -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // Cookie Consent Logic
+            const cookieBanner = document.getElementById('cookie-consent-banner');
+            const acceptBtn = document.getElementById('accept-cookie-btn');
+
+            if (!localStorage.getItem('cookieConsent')) {
+                cookieBanner.style.display = 'flex';
+            }
+
+            acceptBtn.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'true');
+                cookieBanner.style.display = 'none';
+            });
             
             // Tab Switching Logic
             const tabBtns = document.querySelectorAll('.tab-btn');
